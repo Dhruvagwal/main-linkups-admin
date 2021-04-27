@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
 
+import BottomSheet,{BottomSheetScrollView} from '@gorhom/bottom-sheet'
+
 const Index = () => {
     return (
         <View style={styles.container}>

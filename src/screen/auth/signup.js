@@ -6,7 +6,7 @@ import CONSTANT from '../../navigation/navigationConstant.json'
 import {AuthConsumer} from '../../context/auth'
 
 
-import {signUpWithPhoneNumber, confirmOTP} from '../../hooks/useAuth'
+import {signUpWithPhoneNumber, confirmOTP, createSellerUser} from '../../hooks/useAuth'
 
 import styles from './css'
 
@@ -24,13 +24,17 @@ const SignUp = ({navigation}) => {
     const createUser = async ()=>{
         setLoading(true)
         const result = await signUpWithPhoneNumber(PhoneNumber)
-        result?setConfirm(true):navigation.navigate(CONSTANT.Login)   
+        result?setConfirm(true):navigation.navigate(CONSTANT.Login) 
         setLoading(false)
     }
 
     const confirmOtp = async ()=>{
         const result = await confirmOTP(PhoneNumber, Code)
-        result?setAuth(true):setConfirm(false)        
+        if(result){
+            await createSellerUser(PhoneNumber, Name).then((response)=>setAuth(response))
+        }else{
+            setConfirm(false)
+        }       
     }
     if(confirm){
         return (

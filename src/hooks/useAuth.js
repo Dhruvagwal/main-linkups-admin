@@ -78,4 +78,17 @@ const verifyToken = async ()=>{
   return result
 }
 
-export {signInWithPhoneNumber, signUpWithPhoneNumber, confirmOTP, verifyToken}
+const Logout =async()=>{
+  await AsyncStorage.clear()
+}
+
+const createSellerUser = async (phone, name)=>{
+  return await instances.post('/DBcreate/api/account/create',{
+    id:'91'+phone,
+    AccountHolderName: name,
+    isSeller: true,
+    createdOn: new Date()
+  }).then(()=>true).catch(()=>false)
+}
+
+export {signInWithPhoneNumber, signUpWithPhoneNumber, confirmOTP, verifyToken, Logout, createSellerUser}

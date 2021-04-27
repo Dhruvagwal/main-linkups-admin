@@ -1,6 +1,9 @@
 {
     "Home":"Main",
     "Login":"Login",
-    "SignUp":"SignUp"
+    "SignUp":"SignUp",
+    "Loading":"Loading",
+    "AddService": "AddService",
+    "Service": "Service"
     
 }

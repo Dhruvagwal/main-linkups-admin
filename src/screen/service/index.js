@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, Dimensions, Button, FlatList } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, Button, FlatList, Pressable } from 'react-native'
 
 import CONSTANT from '../../navigation/navigationConstant.json'
 
@@ -31,7 +31,18 @@ const Index = ({navigation}) => {
                 data={profile.service}
                 keyExtractor={(data)=>{return data.id.toString()}}
                 renderItem = {({item})=>{
-                return <ServiceListView data={item}/>}}
+                return <Pressable
+                    onPress={()=>{
+                        navigation.navigate(CONSTANT.Service, {
+                            screen: CONSTANT.ServiceDescription,
+                            params: {item}
+                        }
+                        )
+                    }}
+                >
+                    <ServiceListView data={item}/>
+                </Pressable>
+                }}
             />
             <View style={styles.container}>
                 <Button title='Add Service' onPress={()=>navigation.navigate(CONSTANT.Service, {screen:CONSTANT.AddService})}/>

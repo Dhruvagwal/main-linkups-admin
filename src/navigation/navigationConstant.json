@@ -4,6 +4,7 @@
     "SignUp":"SignUp",
     "Loading":"Loading",
     "AddService": "AddService",
-    "Service": "Service"
+    "Service": "Service",
+    "ServiceDescription": "ServiceDescription"
     
 }

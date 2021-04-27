@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import CONSTANT from './navigationConstant.json'
 
-import {NavigationContainer} from '@react-navigation/native'
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
 
 import {AuthConsumer} from '../context/auth'
@@ -16,6 +16,8 @@ import SignupScreen from '../screen/auth/signup'
 import LoadingScreen from '../screen/Loading'
 
 import OrderStackNavigator from './Service'
+
+import color from '../asset/styles/color'
 
 import { verifyToken } from '../hooks/useAuth'
 
@@ -30,7 +32,14 @@ const Index = () => {
         const result = verifyToken().then(response=>{setAuth(response); setLoading(false)})
     },[])
 
-    return (<NavigationContainer ref={navigationRef}>
+    const MyTheme = {
+        ...DefaultTheme,
+        colors: {
+            background: color.Background,
+        },
+    };
+
+    return (<NavigationContainer ref={navigationRef} theme={MyTheme}>
                 {!state.auth?
                     <Stack.Navigator headerMode={false}>
                         {Loading && <Stack.Screen name={CONSTANT.Loading} component={LoadingScreen}/>}

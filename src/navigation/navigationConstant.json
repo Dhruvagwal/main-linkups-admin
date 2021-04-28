@@ -5,6 +5,8 @@
     "Loading":"Loading",
     "AddService": "AddService",
     "Service": "Service",
-    "ServiceDescription": "ServiceDescription"
+    "ServiceDescription": "ServiceDescription",
+    "Customer":"Customer",
+    "CustomerList":"CustomerList"
     
 }

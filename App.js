@@ -11,7 +11,7 @@ import color from './src/asset/styles/color'
 const App = () => {
   return (
     <>
-      <StatusBar backgroundColor={color.Background}/>
+      <StatusBar translucent={true} backgroundColor={'transparent'} />
       <AuthProvider>
       <DataProvider>
           <Navigation/>

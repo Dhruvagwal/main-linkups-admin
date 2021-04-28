@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
 
-import BottomSheet,{BottomSheetScrollView} from '@gorhom/bottom-sheet'
+const HEIGHT = Dimensions.get('screen').height
 
 const Index = () => {
     return (

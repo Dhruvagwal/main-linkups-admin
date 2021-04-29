@@ -15,7 +15,7 @@ const WIDTH = Dimensions.get('screen').width
 
 const IMAGE_SIZE = 70
 const AccountListView = ({navigate})=>{
-    return <Pressable onPress={()=>navigate(CONSTANT.CustomerDetail)} style={{backgroundColor:color.black, opacity:0.95, borderRadius:5, padding:10, marginVertical:10,flexDirection:'row', alignItems:'center', elevation:5}}>
+    return <Pressable onPress={()=>navigate(CONSTANT.Customer,{screen:CONSTANT.CustomerDetail})} style={{backgroundColor:color.black, opacity:0.95, borderRadius:5, padding:10, marginVertical:10,flexDirection:'row', alignItems:'center', elevation:5}}>
         <Image source={require('../../asset/styles/Images/me.jpg')} style={{width:IMAGE_SIZE, height:IMAGE_SIZE, borderRadius:IMAGE_SIZE, borderWidth:2, borderColor:color.lightBlue}}/>
         <View style={{marginHorizontal:10, width:'55%'}}>
             <Text style={{color:color.white, textTransform:'uppercase', letterSpacing:1.8, fontSize:16, fontWeight:'700'}} adjustsFontSizeToFit numberOfLines={1}>Dhruv Aggarwal</Text>
@@ -78,6 +78,7 @@ const Index = ({navigation:{navigate}}) => {
 }
 
 export default Index
+export {AccountListView}
 
 const styles = StyleSheet.create({
 })

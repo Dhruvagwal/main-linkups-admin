@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, Image, ScrollView, TextInput, FlatList, Pressable } from 'react-native'
 
-import { LinearGradient } from 'expo-linear-gradient';
+import CONSTANT from '../../navigation/navigationConstant.json'
 
 import { FontAwesome, AntDesign } from '@expo/vector-icons'; 
 
@@ -11,10 +11,10 @@ const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
 
 const IMAGE_SIZE = 200
-const ServiceListView = ()=>{
+const ServiceListView = ({navigation})=>{
 
     const Data = [1,2,3]
-    return <View style={{flexDirection:'row', height:180,opacity:.95, backgroundColor:color.black, borderRadius:10, alignItems:'center', marginVertical:20}}>
+    return <Pressable onPress={()=>navigation.navigate(CONSTANT.ServiceDescription)} style={{flexDirection:'row', height:180,opacity:.95, backgroundColor:color.black, borderRadius:10, alignItems:'center', marginVertical:20}}>
         <Image source={{uri:'https://c4.wallpaperflare.com/wallpaper/471/285/160/robot-light-technics-wallpaper-preview.jpg'}} style={{width:IMAGE_SIZE, height:IMAGE_SIZE, borderRadius:10}}/>
         <View style={{margin:20, alignSelf:'flex-start',width:160 }}>
             <Text style={{color:color.white, fontSize:20, fontWeight:'700', textTransform:'uppercase', letterSpacing:2}} >Fan Repair</Text>
@@ -31,23 +31,38 @@ const ServiceListView = ()=>{
                 <AntDesign name="staro" size={20} color={color.notification} />
             </View>
         </View>
-    </View>
+    </Pressable>
 }
 
-const Index = () => {
+const Index = ({navigation}) => {
     return (
         <View style={{flex:1}}>
             <View style={{height:HEIGHT*.07}}/>
+            <Image source={require('../../asset/styles/Images/OrderBg.png')} style={[StyleSheet.absoluteFillObject, {opacity:0.5}]}/>
+            <View style={{height:HEIGHT*.25, padding:10, paddingRight:0}}>
+                <FlatList
+                    data={['car','bike','cycle','plane']}
+                    keyExtractor={item=>item}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    snapToInterval={WIDTH*0.92}
+                    decelerationRate={0.8}
+                    renderItem={()=>{
+                        return <View style={{width:WIDTH*0.9,backgroundColor:color.green, margin:5, opacity:0.95, borderRadius:10, padding:10}}>
+                            <Text adjustsFontSizeToFit numberOfLines={1} style={{fontSize:20, letterSpacing:1.5, color:color.white, fontWeight:'700', marginBottom:10}}>Rahul is Your Customer Now!</Text>
+                            <Text>Say Hy to Rahul</Text>
+                            <Text style={{position:'absolute', bottom:10, right:10}}>Click to know more</Text>
+                        </View>
+                    }}
+                />
+            </View>
             <View style={{backgroundColor:color.black,width:WIDTH*0.95, alignSelf:'center', opacity:.95, borderRadius:5, flexDirection:'row', alignItems:'center'}}>
                     <FontAwesome name="search" size={20} color={color.white} style={{marginHorizontal:10}}/>
                     <TextInput placeholder='Search Your Service' placeholderTextColor={color.white} style={{color:color.white, padding:10,fontSize:18, width:WIDTH*0.8}}/>
             </View>  
             <ScrollView>
                 <View style={{width:WIDTH*.95,flex:1, alignSelf:'center', marginTop:10}}>
-                        <ServiceListView/>
-                        <ServiceListView/>
-                        <ServiceListView/>
-                        <ServiceListView/>
+                        <ServiceListView navigation={navigation}/>
                         <Text>{'\n'}</Text>
                         <Text>{'\n'}</Text>
                 </View>

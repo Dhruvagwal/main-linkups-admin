@@ -19,7 +19,7 @@ const OrderListView = ({foo})=>{
             <Text style={{opacity:0.7, color:color.white}}>Status: <Text style={{color:color.red}}>Pending</Text></Text>
         </View>
         <View style={{alignItems:'flex-end'}}>
-            <Text style={{opacity:0.7, color:color.lightBlue}}>Electric Motor Repair</Text>
+            <Text style={{opacity:0.7, color:color.lightBlue, fontSize:12}}>Electric Motor Repair</Text>
             <Text style={{opacity:0.7, color:color.white, fontSize:20, fontWeight:'700'}}>₹750</Text>
         </View>
     </Pressable>

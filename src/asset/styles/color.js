@@ -10,6 +10,10 @@ export default Color = {
     'notification':'#F3B20B',
     'green':'#99C26E',
     'lightGreen': '#1AD3A4',
-    'red':'#ff3838'
+    'red':'#ff3838',
+    'yellow':'#f7f385',
+    'pink':'#EA94FF',
+    'brightBlue':'#62FFF6',
+    'brightGreen':'#61FD5E'
 }
 

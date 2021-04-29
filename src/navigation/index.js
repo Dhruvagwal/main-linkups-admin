@@ -15,8 +15,9 @@ import LoginScreen from '../screen/auth/login'
 import SignupScreen from '../screen/auth/signup'
 import LoadingScreen from '../screen/Loading'
 
-import OrderStackNavigator from './Service'
+import ServiceStackNavigator from './Service'
 import CustomerStackNavigator from './CustomerNavigation'
+import OrderStackNavigator from './Order'
 
 import color from '../asset/styles/color'
 
@@ -51,8 +52,9 @@ const Index = () => {
                     <Stack.Navigator headerMode={false}>
                         {Loading && <Stack.Screen name={CONSTANT.Loading} component={LoadingScreen}/>}
                         <Stack.Screen name={CONSTANT.Home} component={MainScreen}/>
-                        <Stack.Screen name={CONSTANT.Service} component={OrderStackNavigator}/>
+                        <Stack.Screen name={CONSTANT.Service} component={ServiceStackNavigator}/>
                         <Stack.Screen name={CONSTANT.Customer} component={CustomerStackNavigator}/>
+                        <Stack.Screen name={CONSTANT.Order} component={OrderStackNavigator}/>
                     </Stack.Navigator>
                 }
             </NavigationContainer>

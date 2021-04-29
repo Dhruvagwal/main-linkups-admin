@@ -7,6 +7,8 @@ export default Color = {
     'lightBlue':'#50C0F5',
     'purple':'#713CF5',
     'Secondary':'#a3a3a3',
-    'notification':'#F3B20B'
+    'notification':'#F3B20B',
+    'green':'#99C26E',
+    'red':'#ff3838'
 }
 

@@ -38,7 +38,7 @@ const Index = () => {
                 delay: 100,
             }}>
 
-            <ImageBackground source={require('../../asset/styles/Images/customerBg.png')} style={[StyleSheet.absoluteFillObject]}/>
+            <Image source={require('../../asset/styles/Images/customerBg.png')} style={[StyleSheet.absoluteFillObject]}/>
                 <View style={{height:HEIGHT*.1}}/>
                 <View style={{height:HEIGHT*.25, padding:10, paddingRight:0}}>
                     <FlatList
@@ -57,7 +57,7 @@ const Index = () => {
                         }}
                     />
                 </View>
-                <View style={{backgroundColor:color.black,marginBottom:5,width:WIDTH*0.95, alignSelf:'center', opacity:.95, borderRadius:5, flexDirection:'row', alignItems:'center'}}>
+                <View style={{backgroundColor:color.black,width:WIDTH*0.95, alignSelf:'center', opacity:.95, borderRadius:5, flexDirection:'row', alignItems:'center'}}>
                     <FontAwesome name="search" size={20} color={color.white} style={{marginHorizontal:10}}/>
                     <TextInput placeholder='Search Account' placeholderTextColor={color.white} style={{color:color.white, padding:10,fontSize:18, width:WIDTH*0.8}}/>
                 </View>              

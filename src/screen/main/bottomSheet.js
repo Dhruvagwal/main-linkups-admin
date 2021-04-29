@@ -39,7 +39,7 @@ const bottomSheet = ({foo, navigation:{navigate}}) => {
                                 </LinearGradient>
                             </Pressable>
 
-                            <Pressable onPress={()=>navigate(CONSTANT.Customer)} style={{width:'45%', margin:5}}>
+                            <Pressable onPress={()=>navigate(CONSTANT.Order)} style={{width:'45%', margin:5}}>
                                 <LinearGradient start={{x: 0, y:1}} end={{ x: 1, y: 0 }} colors={['#fc0097','#FD55A7' ,'#FD55A7']} style={styles.category}>
                                     <Feather name="shopping-cart" size={ICON_SIZE} color={color.white} />
                                     <Text style={styles.label}>Orders</Text>
@@ -47,7 +47,7 @@ const bottomSheet = ({foo, navigation:{navigate}}) => {
                             </Pressable>
                         </View>
                         <View style={{flexDirection:'row', justifyContent:'center'}}>
-                            <Pressable onPress={()=>navigate(CONSTANT.Service)} style={{width:'45%', margin:5}}>
+                            <Pressable onPress={()=>navigate(CONSTANT.Service,{screen:CONSTANT.ServiceListView})} style={{width:'45%', margin:5}}>
                                 <LinearGradient start={{x: 0, y:1}} end={{ x: 1, y: 0 }} colors={['#327EDB','#23B4BC' ,'#1AD3A4']} style={styles.category}>
                                     <AntDesign name="customerservice" size={ICON_SIZE} color={color.white} />
                                     <Text style={styles.label}>Services</Text>

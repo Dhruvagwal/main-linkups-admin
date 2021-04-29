@@ -9,6 +9,7 @@ export default Color = {
     'Secondary':'#a3a3a3',
     'notification':'#F3B20B',
     'green':'#99C26E',
+    'lightGreen': '#1AD3A4',
     'red':'#ff3838'
 }
 

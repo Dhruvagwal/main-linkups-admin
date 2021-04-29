@@ -35,7 +35,8 @@ const Index = () => {
                 type: 'timing',
                 duration: 500,
                 delay: 100,
-            }}>
+            }}
+            style={{flex:1}}>
 
             <Image source={require('../../asset/styles/Images/OrderBg.png')} style={[StyleSheet.absoluteFillObject, {opacity:0.5}]}/>
                 <View style={{height:HEIGHT*.1}}/>
@@ -72,15 +73,6 @@ const Index = () => {
                             <OrderListView/>
                             <OrderListView/>
                             <OrderListView/>
-                            <Text>{'\n'}</Text>
-                            <Text>{'\n'}</Text>
-                            <Text>{'\n'}</Text>
-                            <Text>{'\n'}</Text>
-                            <Text>{'\n'}</Text>
-                            <Text>{'\n'}</Text>
-                            <Text>{'\n'}</Text>
-                            <Text>{'\n'}</Text>
-
                     </View>
                 </ScrollView>
         </View>

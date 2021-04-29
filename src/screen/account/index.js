@@ -36,9 +36,10 @@ const Index = () => {
                 type: 'timing',
                 duration: 500,
                 delay: 100,
-            }}>
+            }}
+            style={{flex:1, backgroundColor:'red'}}>
 
-            <Image source={require('../../asset/styles/Images/customerBg.png')} style={[StyleSheet.absoluteFillObject]}/>
+                <Image source={require('../../asset/styles/Images/customerBg.png')} style={[StyleSheet.absoluteFillObject]}/>
                 <View style={{height:HEIGHT*.1}}/>
                 <View style={{height:HEIGHT*.25, padding:10, paddingRight:0}}>
                     <FlatList
@@ -72,7 +73,6 @@ const Index = () => {
                             <AccountListView/>
                             <AccountListView/>
                             <AccountListView/>
-                            <Text>{'\n'}</Text>
                     </View>
                 </ScrollView>
         </View>

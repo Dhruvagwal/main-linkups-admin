@@ -8,8 +8,10 @@
     "ServiceDescription": "ServiceDescription",
     "Customer":"Customer",
     "CustomerList":"CustomerList",
+    "CustomerDetail": "CustomerDetail",
     "Order": "Order",
     "OrderList":"OrderList",
-    "ServiceListView":"ServiceListView"
+    "ServiceListView":"ServiceListView",
+    "PaymentListView": "PaymentListView"
     
 }

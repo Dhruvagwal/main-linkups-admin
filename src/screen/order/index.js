@@ -81,5 +81,7 @@ const Index = () => {
 
 export default Index
 
+export {OrderListView}
+
 const styles = StyleSheet.create({
 })

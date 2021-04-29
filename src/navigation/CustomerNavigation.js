@@ -6,12 +6,14 @@ import CONSTANT from './navigationConstant.json'
 import {createStackNavigator} from '@react-navigation/stack'
 
 import CustomerList from '../screen/account/index'
+import CustomerDescription from '../screen/account/AccountDetail'
 
 const Customer = () => {
     const Stack = createStackNavigator()
     return (
         <Stack.Navigator headerMode={false}>
             <Stack.Screen name={CONSTANT.CustomerList} component={CustomerList}/>
+            <Stack.Screen name={CONSTANT.CustomerDetail} component={CustomerDescription}/>
         </Stack.Navigator>
     )   
 }

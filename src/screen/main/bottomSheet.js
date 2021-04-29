@@ -54,7 +54,7 @@ const bottomSheet = ({foo, navigation:{navigate}}) => {
                                 </LinearGradient>
                             </Pressable>
                             
-                            <Pressable onPress={()=>navigate(CONSTANT.Customer)} style={{width:'45%', margin:5}}>
+                            <Pressable onPress={()=>navigate(CONSTANT.Order,{screen:CONSTANT.PaymentListView})} style={{width:'45%', margin:5}}>
                                 <LinearGradient start={{x: 0, y:1}} end={{ x: 1, y: 0 }} colors={['#FBBB68','#F39764' ,'#F06F61']} style={styles.category}>
                                     <MaterialIcons name="payment" size={ICON_SIZE} color={color.white} />
                                     <Text style={styles.label}>Payments</Text>

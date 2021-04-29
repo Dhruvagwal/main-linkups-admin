@@ -1,12 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, Dimensions, Image, FlatList, TextInput, ScrollView, Pressable } from 'react-native'
+import { StyleSheet, Text, Dimensions, Image, FlatList, TextInput, ScrollView, ImageBackground } from 'react-native'
 
 import color from '../../asset/styles/color'
 import * as RootNavigation from '../../navigation/RootNavigation'
 
-import CONSTANT from '../../navigation/navigationConstant.json'
+import moment from 'moment'
 
-import { FontAwesome, Ionicons, Entypo } from '@expo/vector-icons'; 
+import { FontAwesome, AntDesign } from '@expo/vector-icons'; 
 
 import {View} from 'moti'
 
@@ -14,21 +14,22 @@ const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
 
 const IMAGE_SIZE = 70
-const AccountListView = ({navigate})=>{
-    return <Pressable onPress={()=>navigate(CONSTANT.CustomerDetail)} style={{backgroundColor:color.black, opacity:0.95, borderRadius:5, padding:10, marginVertical:10,flexDirection:'row', alignItems:'center', elevation:5}}>
-        <Image source={require('../../asset/styles/Images/me.jpg')} style={{width:IMAGE_SIZE, height:IMAGE_SIZE, borderRadius:IMAGE_SIZE, borderWidth:2, borderColor:color.lightBlue}}/>
-        <View style={{marginHorizontal:10, width:'55%'}}>
-            <Text style={{color:color.white, textTransform:'uppercase', letterSpacing:1.8, fontSize:16, fontWeight:'700'}} adjustsFontSizeToFit numberOfLines={1}>Dhruv Aggarwal</Text>
-            <Text style={{opacity:0.7, color:color.white}}>C-Block 133/1 Gali No-11</Text>
+const PaymentListView = ()=>{
+    return <View style={{backgroundColor:color.black, opacity:0.95, borderRadius:5, padding:10, marginVertical:10,flexDirection:'row', alignItems:'center', elevation:5, justifyContent:'space-between'}}>
+        <View>
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+                <AntDesign name="checkcircleo" size={24} color={color.lightGreen} />
+                <Text style={{color: color.notification, textTransform:'uppercase', fontWeight:'700', fontSize:20, letterSpacing:1.7}}>{' '}Dhruv Aggarwal</Text>
+            </View>
+            <Text style={{color:color.Secondary}}>Payed at {moment(new Date()).format('LLLL')}</Text>
         </View>
-        <View style={{flexDirection:'row', alignItems:'center', width:'20%'}}>
-            <Ionicons name="call" size={30} color={color.lightBlue} style={{padding:5}} />
-            <Entypo name="message" size={30} color={color.lightBlue} style={{padding:5}} />
+        <View>
+            <Text style={{fontSize:20, fontWeight:'700', letterSpacing:1.5, color:color.white}}>₹550</Text>
         </View>
-    </Pressable>
+    </View>
 }
 
-const Index = ({navigation:{navigate}}) => {
+const Index = () => {
     return (
         <View 
             from={{opacity:0}} 
@@ -39,7 +40,7 @@ const Index = ({navigation:{navigate}}) => {
                 duration: 500,
                 delay: 100,
             }}
-            style={{flex:1}}>
+            style={{flex:1, backgroundColor:'red'}}>
 
                 <Image source={require('../../asset/styles/Images/customerBg.png')} style={[StyleSheet.absoluteFillObject]}/>
                 <View style={{height:HEIGHT*.1}}/>
@@ -62,15 +63,16 @@ const Index = ({navigation:{navigate}}) => {
                 </View>
                 <View style={{backgroundColor:color.black,width:WIDTH*0.95, alignSelf:'center', opacity:.95, borderRadius:5, flexDirection:'row', alignItems:'center'}}>
                     <FontAwesome name="search" size={20} color={color.white} style={{marginHorizontal:10}}/>
-                    <TextInput placeholder='Search Account' placeholderTextColor={color.white} style={{color:color.white, padding:10,fontSize:18, width:WIDTH*0.8}}/>
+                    <TextInput placeholder='Search Payments' placeholderTextColor={color.white} style={{color:color.white, padding:10,fontSize:18, width:WIDTH*0.8}}/>
                 </View>              
                 <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
                     <View style={{margin:10, marginTop:25}}>
-                            <Text style={{color:color.white, textTransform:'uppercase', letterSpacing:1.8}}>Your Customers</Text>
-                            <AccountListView navigate={navigate}/>
-                            <AccountListView navigate={navigate}/>
-                            <AccountListView navigate={navigate}/>
-                            <AccountListView navigate={navigate}/>
+                            <Text style={{color:color.white, textTransform:'uppercase', letterSpacing:1.8}}>Your Payments</Text>
+                            <PaymentListView/>
+                            <PaymentListView/>
+                            <PaymentListView/>
+                            <PaymentListView/>
+                            <PaymentListView/>
                     </View>
                 </ScrollView>
         </View>

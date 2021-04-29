@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Dimensions, Image, ScrollView } from 'react-nat
 
 import color from '../../asset/styles/color'
 
+import CONSTANT from '../../navigation/navigationConstant.json'
+
 import {OrderListView} from '../order'
 
 const HEIGHT = Dimensions.get('screen').height
@@ -11,7 +13,7 @@ const WIDTH = Dimensions.get('screen').width
 
 const IMAGE_SIZE = 200
 
-const AccountDetail = () => {
+const AccountDetail = ({navigation}) => {
     return (
         <View style={{flex:1}}>
             <ScrollView>
@@ -40,10 +42,7 @@ const AccountDetail = () => {
                         <Text>{'\n'}</Text>
                         <View style={{padding:10}}>
                             <Text style={{color:color.white, fontSize:16,textTransform:'uppercase', alignSelf:'center', marginBottom:10, letterSpacing:1.5}}>Order History</Text>
-                            <OrderListView/>
-                            <OrderListView/>
-                            <OrderListView/>
-                            <OrderListView/>
+                            <OrderListView foo={()=>navigation.navigate(CONSTANT.Order,{screen:CONSTANT.OrderDetail})}/>
                         </View>
                     </View>
                 </View>

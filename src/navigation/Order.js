@@ -7,6 +7,7 @@ import {createStackNavigator} from '@react-navigation/stack'
 
 import OrderListView from '../screen/order'
 import PaymentListView from '../screen/order/payment'
+import OrderDetail from '../screen/order/orderDetail'
 
 const Order = () => {
     const Stack = createStackNavigator()
@@ -14,6 +15,7 @@ const Order = () => {
         <Stack.Navigator headerMode={false}>
             <Stack.Screen name={CONSTANT.OrderList} component={OrderListView}/>
             <Stack.Screen name={CONSTANT.PaymentListView} component={PaymentListView}/>
+            <Stack.Screen name={CONSTANT.OrderDetail} component={OrderDetail}/>
         </Stack.Navigator>
     )   
 }

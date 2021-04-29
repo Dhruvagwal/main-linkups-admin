@@ -1,8 +1,8 @@
 import React from 'react'
-import { StyleSheet, Text, Dimensions, Image, FlatList, TextInput, ScrollView, ImageBackground } from 'react-native'
+import { StyleSheet, Text, Dimensions, Image, FlatList, TextInput, ScrollView, ImageBackground, Pressable } from 'react-native'
 
 import color from '../../asset/styles/color'
-import * as RootNavigation from '../../navigation/RootNavigation'
+import CONSTANT from '../../navigation/navigationConstant.json'
 
 import { FontAwesome, Ionicons, Entypo } from '@expo/vector-icons'; 
 
@@ -12,8 +12,8 @@ const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
 
 const IMAGE_SIZE = 70
-const OrderListView = ()=>{
-    return <View style={{backgroundColor:color.black, opacity:0.95, borderRadius:5, padding:10, marginVertical:10,flexDirection:'row', alignItems:'center', elevation:5, justifyContent:'space-between'}}>
+const OrderListView = ({foo})=>{
+    return <Pressable onPress={foo} style={{backgroundColor:color.black, opacity:0.95, borderRadius:5, padding:10, marginVertical:10,flexDirection:'row', alignItems:'center', elevation:5, justifyContent:'space-between'}}>
         <View>
             <Text style={{color:color.white, textTransform:'uppercase', letterSpacing:1.8, fontSize:16, fontWeight:'700'}} adjustsFontSizeToFit numberOfLines={1}>Dhruv Aggarwal</Text>
             <Text style={{opacity:0.7, color:color.white}}>Status: <Text style={{color:color.red}}>Pending</Text></Text>
@@ -22,10 +22,10 @@ const OrderListView = ()=>{
             <Text style={{opacity:0.7, color:color.lightBlue}}>Electric Motor Repair</Text>
             <Text style={{opacity:0.7, color:color.white, fontSize:20, fontWeight:'700'}}>₹750</Text>
         </View>
-    </View>
+    </Pressable>
 }
 
-const Index = () => {
+const Index = ({navigation}) => {
     return (
         <View 
             from={{opacity:0}} 
@@ -64,15 +64,7 @@ const Index = () => {
                 <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
                     <View style={{margin:10, marginTop:25}}>
                             <Text style={{color:color.white, textTransform:'uppercase', letterSpacing:1.8}}>Your Customers</Text>
-                            <OrderListView/>
-                            <OrderListView/>
-                            <OrderListView/>
-                            <OrderListView/>
-                            <OrderListView/>
-                            <OrderListView/>
-                            <OrderListView/>
-                            <OrderListView/>
-                            <OrderListView/>
+                            <OrderListView foo={()=>navigation.navigate(CONSTANT.OrderDetail)}/>
                     </View>
                 </ScrollView>
         </View>

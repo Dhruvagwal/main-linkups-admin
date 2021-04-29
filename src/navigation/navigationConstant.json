@@ -12,6 +12,7 @@
     "Order": "Order",
     "OrderList":"OrderList",
     "ServiceListView":"ServiceListView",
-    "PaymentListView": "PaymentListView"
+    "PaymentListView": "PaymentListView",
+    "OrderDetail": "OrderDetail"
     
 }

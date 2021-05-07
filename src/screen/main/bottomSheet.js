@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { StyleSheet, Text, View, Dimensions, Pressable } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
-import color from '../../asset/styles/color'
+import color from 'colors'
 
 import BottomSheet,{BottomSheetScrollView} from '@gorhom/bottom-sheet'
 
@@ -31,34 +31,25 @@ const bottomSheet = ({foo, navigation:{navigate}}) => {
                 <BottomSheetScrollView>
                     <View style={{justifyContent:'center' ,height:HEIGHT*0.6}}>
                         <View style={{flexDirection:'row',justifyContent:'center'}}>
-
-                            <Pressable onPress={()=>navigate(CONSTANT.Customer)} style={{width:'45%', margin:5}}>
-                                <LinearGradient start={{x: 0, y:1}} end={{ x: 1, y: 0 }} colors={['#713CF2','#467AF1' ,'#1DB4F1']} style={styles.category}>
+                            <Pressable onPress={()=>navigate(CONSTANT.Customer)} style={styles.category}>
                                     <FontAwesome5 name="users" size={ICON_SIZE} color={color.white} />
                                     <Text style={styles.label}>Customers</Text>
-                                </LinearGradient>
                             </Pressable>
 
-                            <Pressable onPress={()=>navigate(CONSTANT.Order)} style={{width:'45%', margin:5}}>
-                                <LinearGradient start={{x: 0, y:1}} end={{ x: 1, y: 0 }} colors={['#fc0097','#FD55A7' ,'#FD55A7']} style={styles.category}>
+                            <Pressable onPress={()=>navigate(CONSTANT.Order)} style={styles.category}>
                                     <Feather name="shopping-cart" size={ICON_SIZE} color={color.white} />
                                     <Text style={styles.label}>Orders</Text>
-                                </LinearGradient>
                             </Pressable>
                         </View>
                         <View style={{flexDirection:'row', justifyContent:'center'}}>
-                            <Pressable onPress={()=>navigate(CONSTANT.Service,{screen:CONSTANT.ServiceListView})} style={{width:'45%', margin:5}}>
-                                <LinearGradient start={{x: 0, y:1}} end={{ x: 1, y: 0 }} colors={['#327EDB','#23B4BC' ,'#1AD3A4']} style={styles.category}>
+                            <Pressable onPress={()=>navigate(CONSTANT.Service,{screen:CONSTANT.ServiceListView})} style={styles.category}>
                                     <AntDesign name="customerservice" size={ICON_SIZE} color={color.white} />
                                     <Text style={styles.label}>Services</Text>
-                                </LinearGradient>
                             </Pressable>
                             
-                            <Pressable onPress={()=>navigate(CONSTANT.Order,{screen:CONSTANT.PaymentListView})} style={{width:'45%', margin:5}}>
-                                <LinearGradient start={{x: 0, y:1}} end={{ x: 1, y: 0 }} colors={['#FBBB68','#F39764' ,'#F06F61']} style={styles.category}>
+                            <Pressable onPress={()=>navigate(CONSTANT.Order,{screen:CONSTANT.PaymentListView})} style={styles.category}>
                                     <MaterialIcons name="payment" size={ICON_SIZE} color={color.white} />
                                     <Text style={styles.label}>Payments</Text>
-                                </LinearGradient>
                             </Pressable>
                         </View>
                     </View>
@@ -74,15 +65,17 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    backgroundColor: color.black,
+    backgroundColor: color.elevatedDark,
   },
   category:{
       padding:5,
-      width:'100%',
-      borderRadius:25,
+      width:'45%',
       height:230,
       alignItems:'center',
       justifyContent:'center',
+      backgroundColor:color.active,
+      borderRadius:25,
+      margin:5
   },
   label:{
       fontSize:ICON_SIZE*0.3,

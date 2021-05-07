@@ -14,6 +14,13 @@ export default Color = {
     'yellow':'#f7f385',
     'pink':'#EA94FF',
     'brightBlue':'#62FFF6',
-    'brightGreen':'#61FD5E'
+    'brightGreen':'#61FD5E',
+    'dark':'#1A222F',
+    'white':'#fff',
+    'secondaryDark':'#1E2735',
+    'lightDark':'#283140',
+    'active': '#FF6E50',
+    'inActive':'#aaacaf',
+    'elevatedDark':'#222a38'
 }
 

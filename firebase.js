@@ -12,6 +12,7 @@ import "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyDXvJ2mGXnmtQTQMuFU7ExCdoBsNspN2og",
   authDomain: "mainlinkupsadmin.firebaseapp.com",
+  databaseURL: "https://mainlinkupsadmin-default-rtdb.firebaseio.com",
   projectId: "mainlinkupsadmin",
   storageBucket: "mainlinkupsadmin.appspot.com",
   messagingSenderId: "502431858436",

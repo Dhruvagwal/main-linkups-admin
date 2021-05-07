@@ -11,6 +11,7 @@ import {AuthConsumer} from '../context/auth'
 import {navigationRef} from './RootNavigation';
 
 import MainScreen from '../screen/main/index'
+import EditScreen from '../screen/main/edit'
 import LoginScreen from '../screen/auth/login'
 import SignupScreen from '../screen/auth/signup'
 import LoadingScreen from '../screen/Loading'
@@ -19,7 +20,7 @@ import ServiceStackNavigator from './Service'
 import CustomerStackNavigator from './CustomerNavigation'
 import OrderStackNavigator from './Order'
 
-import color from '../asset/styles/color'
+import color from 'colors'
 
 import { verifyToken } from '../hooks/useAuth'
 
@@ -37,7 +38,7 @@ const Index = () => {
     const MyTheme = {
         ...DefaultTheme,
         colors: {
-            background: color.Background,
+            background: color.dark,
         },
     };
 
@@ -52,6 +53,7 @@ const Index = () => {
                     <Stack.Navigator headerMode={false}>
                         {Loading && <Stack.Screen name={CONSTANT.Loading} component={LoadingScreen}/>}
                         <Stack.Screen name={CONSTANT.Home} component={MainScreen}/>
+                        <Stack.Screen name={CONSTANT.edit} component={EditScreen}/>
                         <Stack.Screen name={CONSTANT.Service} component={ServiceStackNavigator}/>
                         <Stack.Screen name={CONSTANT.Customer} component={CustomerStackNavigator}/>
                         <Stack.Screen name={CONSTANT.Order} component={OrderStackNavigator}/>

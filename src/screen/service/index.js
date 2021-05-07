@@ -67,9 +67,9 @@ const Index = ({navigation}) => {
                         <Text>{'\n'}</Text>
                 </View>
             </ScrollView>
-            <View style={{position:'absolute', bottom:20, borderWidth:0,backgroundColor:color.lightGreen, elevation:5, zIndex:100, padding:10, alignSelf:'center', width:WIDTH*0.75, alignItems:'center', borderRadius:50}}>
+            <Pressable onPress={()=>navigation.navigate(CONSTANT.AddService)} style={{position:'absolute', bottom:20, borderWidth:0,backgroundColor:color.lightGreen, elevation:5, zIndex:100, padding:10, alignSelf:'center', width:WIDTH*0.75, alignItems:'center', borderRadius:50}}>
                 <Text style={{textTransform:'uppercase', fontSize:20, fontWeight:'700', color:color.white, letterSpacing:1.5}}>Add New Service</Text>
-            </View>
+            </Pressable>
         </View>
     )
 }

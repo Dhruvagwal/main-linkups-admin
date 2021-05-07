@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, View, Text, Dimensions, FlatList, Image } from 'react-native'
+import {StyleSheet, View, Text, Dimensions, FlatList, Image, Pressable } from 'react-native'
 
 import BottomSheet,{BottomSheetScrollView} from '@gorhom/bottom-sheet'
 
@@ -60,6 +60,11 @@ const ServiceDescription = ({navigation:{navigate}}) => {
                         return <Image source={{uri:item}} style={{height:IMAGE_HEIGHT, width:IMAGE_WIDTH}}/>
                     }}
                 />
+            </View>
+            <View style={{position:'absolute', top:HEIGHT*.05, right: WIDTH*.05, zIndex:100}}>
+                <Pressable style={{backgroundColor:color.lightBlue, padding:10, width:WIDTH*.2, alignItems:'center', borderRadius:5}}>
+                    <Text>EDIT</Text>
+                </Pressable>
             </View>
             <BottomSheet
                 initialSnapIndex ={0}

@@ -9,6 +9,8 @@ import {useService} from '../../hooks/Data'
 import {DataConsumer} from '../../context/data'
 
 const WIDTH = Dimensions.get('screen').width
+const HEIGHT = Dimensions.get('screen').height
+
 
 const AddService = () => {
     const [name, setName] = useState()
@@ -26,20 +28,25 @@ const AddService = () => {
         await useService(state,{name, MRP,discount, warranty})
         await Update()
         setLoading(false)
-        RootNavigation.navigate(CONSTANT.Home)
+        RootNavigation.navigate(CONSTANT.Service, {screen:CONSTANT.ServiceListView})
     }
     return (
-        <View style={{flex:1, alignItems:'center', padding:25}}>
-            <Text style={{fontWeight:'700', fontSize:30, opacity:0.5}}>ADD SERVICE</Text>
-            <Text>{'\n'}</Text>
-            <TextInput onChangeText={setName} value={name} style={styles.TextInput} placeholder='Name'/>
-            <TextInput onChangeText={setDiscount} value={discount} keyboardType='numeric' style={styles.TextInput} placeholder='Discount'/>
-            <TextInput onChangeText={setMRP} value={MRP} keyboardType='numeric' style={styles.TextInput} placeholder='M.R.P.'/>
-            <TextInput onChangeText={setWarranty} value={warranty} keyboardType='numeric' style={styles.TextInput} placeholder='Warranty'/>
-            <Text>{'\n'}</Text>
-            {loading?<ActivityIndicator size="large" color="#3196e2"/>
-            :<Button title='Upload' onPress={Upload}/>
-            }
+        <View style={{flex:1}}>
+            <View style={{height:HEIGHT*.1}}/>
+
+            <View style={{alignItems:'center'}}>
+                <Text style={{fontWeight:'700', fontSize:30, opacity:0.5}}>ADD SERVICE</Text>
+                <Text>{'\n'}</Text>
+                <TextInput onChangeText={setName} value={name} style={styles.TextInput} placeholder='Name'/>
+                <TextInput onChangeText={setDiscount} value={discount} keyboardType='numeric' style={styles.TextInput} placeholder='Discount'/>
+                <TextInput onChangeText={setMRP} value={MRP} keyboardType='numeric' style={styles.TextInput} placeholder='M.R.P.'/>
+                <TextInput onChangeText={setWarranty} value={warranty} keyboardType='numeric' style={styles.TextInput} placeholder='Warranty'/>
+                <Text>{'\n'}</Text>
+                {loading?<ActivityIndicator size="large" color="#3196e2"/>
+                :<Button title='Upload' onPress={Upload}/>
+                }
+            </View>
+
         </View>
     )
 }

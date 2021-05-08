@@ -1,13 +1,19 @@
 import firebase from '../../firebase'
 
-export async function UploadImage(uri, className,acc){
-        console.log('trigger')
-  const storage = firebase.storage();
+const getLocalPath = async (uri)=>{
   const response = await fetch(uri);
   const blob = await response.blob();
-  var URL
-  var ref = firebase.storage().ref(`/${className}`).child(`/${acc}`).put(blob);
-  
+  return blob
+}
+
+const upload = async (blob, className,acc)=>{
+  const ref = await firebase.storage().ref(`/${className}`).child(`/${acc}`).put(blob)
+  console.log('trigger')
+  console.log('ref', ref)
+  return ref
+};
+
+const getLink = async (ref, className, acc)=>{
   await ref.on(
     "state_changed",
     (snapshot) => {},
@@ -20,10 +26,12 @@ export async function UploadImage(uri, className,acc){
         .child(`/${acc}`)
         .getDownloadURL()
         .then(async (url) => {
-          URL = await url
-          console.log(url)
+            // setURL(url)
+            console.log(url)
+            return url
         });
     }
   );
-  //return URL
-};
+}
+export {getLink, getLocalPath}
+export default upload

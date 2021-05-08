@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Platform, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function ImageSelector({style, setImage, image, children}) {
+export default function ImageSelector({style,image, setImage, children}) {
 
   useEffect(() => {
     (async () => {
@@ -24,7 +24,9 @@ export default function ImageSelector({style, setImage, image, children}) {
     });
 
     if (!result.cancelled) {
-      setImage(result.uri);
+    var list = [...image]
+    list.push(result.uri)
+    setImage(list)
     }
   };
 

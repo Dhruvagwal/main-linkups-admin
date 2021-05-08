@@ -11,20 +11,19 @@ const getData = async ()=>{
 }
 
 
-const useService = async (state, {name,MRP, discount, warranty})=>{
+const useService = async (state, newData)=>{
+    const {profile} = state
+    const {Providers:{customers, services}} = profile
     const PHONE_NUMBER = await AsyncStorage.getItem(STORAGE_KEY_3)
     let Data;
-    const newData =  {
-            id:Math.floor(Math.random()*1000000),
-            name,
-            MRP,
-            discount,
-            warranty
+    Data = {
+        Providers:{
+            customers,
+            services:services?[...services,newData]:[newData]
         }
-    if (state.profile.service === undefined){
-        Data = {service : [newData]}
-    }else Data = {service : [...state.profile.service,newData]}
+    }
     
+    console.log(Data)
     await instances.put(`/Update/api/users/${PHONE_NUMBER}`,Data)
 }
 
@@ -41,7 +40,6 @@ const saveData = async (name, location,price, imageUri)=>{
 
 const getCategory = async ()=>{
     const {data} = await instances.get('/ReadAll/api/CATS/read')
-    console.log(data)
     return data
 }
 

@@ -1,52 +1,77 @@
-import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, View, TextInput, Dimensions, Button, ActivityIndicator } from 'react-native'
+import React, {useEffect, useState, useCallback} from 'react'
+import { StyleSheet, View, TextInput, Dimensions, Pressable, ScrollView } from 'react-native'
+import SelectPicker from 'react-native-form-select-picker'; 
+import ImageSelector from 'components/serviceImagePicker'
 
-import * as RootNavigation from '../../navigation/RootNavigation'
-import CONSTANT from '../../navigation/navigationConstant.json'
+import { MaterialIcons, Entypo } from '@expo/vector-icons'; 
 
-import {useService} from '../../hooks/Data'
+import {getCategory} from 'hooks/Data'
 
-import {DataConsumer} from '../../context/data'
+import {DataConsumer} from 'context/data'
 
-const WIDTH = Dimensions.get('screen').width
+import {Text, RowView} from 'styles'
+import color from 'colors'
+
 const HEIGHT = Dimensions.get('screen').height
+const WIDTH = Dimensions.get('screen').width
 
+const option = ["Apple", "Banana", "Orange"];
 
-const AddService = () => {
+const AddService = ({navigation}) => {
+    const {state:{profile, category}} = DataConsumer()
     const [name, setName] = useState()
-    const [discount, setDiscount] = useState()
-    const [warranty, setWarranty] = useState()
-    const [MRP, setMRP] = useState()
-
-    const [loading, setLoading] = useState(false)
-    const {state, Update} = DataConsumer()
-
-    useEffect(()=>{Update()},[])
-
-    const Upload =async ()=>{
-        setLoading(true)
-        await useService(state,{name, MRP,discount, warranty})
-        await Update()
-        setLoading(false)
-        RootNavigation.navigate(CONSTANT.Service, {screen:CONSTANT.ServiceListView})
-    }
+    const [selectedCategory, setCategory] = useState();
+    const [image, setImage] = useState()
     return (
         <View style={{flex:1}}>
-            <View style={{height:HEIGHT*.1}}/>
-
-            <View style={{alignItems:'center'}}>
-                <Text style={{fontWeight:'700', fontSize:30, opacity:0.5}}>ADD SERVICE</Text>
-                <Text>{'\n'}</Text>
-                <TextInput onChangeText={setName} value={name} style={styles.TextInput} placeholder='Name'/>
-                <TextInput onChangeText={setDiscount} value={discount} keyboardType='numeric' style={styles.TextInput} placeholder='Discount'/>
-                <TextInput onChangeText={setMRP} value={MRP} keyboardType='numeric' style={styles.TextInput} placeholder='M.R.P.'/>
-                <TextInput onChangeText={setWarranty} value={warranty} keyboardType='numeric' style={styles.TextInput} placeholder='Warranty'/>
-                <Text>{'\n'}</Text>
-                {loading?<ActivityIndicator size="large" color="#3196e2"/>
-                :<Button title='Upload' onPress={Upload}/>
-                }
+            <View style={{height:HEIGHT*.05}}/>
+            <RowView>
+                <Pressable onPress={()=>navigation.goBack()}>
+                    <MaterialIcons name="keyboard-arrow-left" size={50} color={color.white} />
+                </Pressable>
+                <View style={{alignItems:'center', width:'75%'}}>
+                    <Text size={20} regular>{profile.name}</Text>
+                    <Text>Add Service</Text>
+                </View>
+            </RowView>
+            <ScrollView>
+                <View style={{backgroundColor:color.elevatedDark, flex:1, margin:10, padding:10, borderRadius:20}}>
+                    <Text style={{marginVertical:20, alignSelf:'center'}}>Service Details</Text>
+                    <TextInput style={styles.TextInput} placeholder="Headline" value={name} onChangeText={setName} placeholderTextColor={color.inActive}/>
+                        <SelectPicker
+                            onValueChange={(value) => {
+                                setCategory(value);
+                            }}
+                            placeholder="--Select Category--"
+                            style={{...styles.TextInput}}
+                            onSelectedStyle={{color:color.white, fontFamily:'Montserrat'}}
+                            containerStyle={{
+                                backgroundColor:color.lightDark,
+                                color:color.white
+                            }}
+                            doneButtonTextStyle	={{color:color.white, fontFamily:'Montserrat'}}
+                            >
+                            {category.filter(item=>item.isActive===true).map((item) => (
+                                <SelectPicker.Item label={item.name} value={item.id} key={Math.random().toString()} />
+                            ))}
+                        </SelectPicker>
+                        <RowView style={{justifyContent:'space-between'}}>
+                            <TextInput style={{...styles.TextInput, width:'48%'}} placeholder="MRP" value={name} onChangeText={setName} placeholderTextColor={color.inActive}/>
+                            <TextInput style={{...styles.TextInput, width:'48%'}} placeholder="Discount" value={name} onChangeText={setName} placeholderTextColor={color.inActive}/>
+                        </RowView>
+                        <RowView style={{justifyContent:'space-between'}}>
+                            <TextInput style={{...styles.TextInput, width:'48%'}} placeholder="--Select--" value={name} onChangeText={setName} placeholderTextColor={color.inActive}/>
+                            <TextInput style={{...styles.TextInput, width:'48%'}} placeholder="Days" value={name} onChangeText={setName} placeholderTextColor={color.inActive}/>
+                        </RowView>
+                        <ImageSelector style={[styles.TextInput,{alignItems:'center', justifyContent:'center', height: 200}]}>
+                            <Entypo name="upload-to-cloud" size={100} color={color.active} />
+                            <Text>Upload Image or Video</Text>
+                        </ImageSelector>
+                </View>
+            </ScrollView>
+            <View style={{backgroundColor:color.lightDark, height:150, borderTopLeftRadius:20, borderTopRightRadius:20, padding:10}}>
+                <Text size={25} style={{color:color.active}} bold>{name}</Text>
             </View>
-
         </View>
     )
 }
@@ -54,14 +79,18 @@ const AddService = () => {
 export default AddService
 
 const styles = StyleSheet.create({
+    style:{
+        borderTopRightRadius:20
+    },
     TextInput:{
-        padding:5, 
-        width: WIDTH/1.2,
-        alignSelf:'center',
-        margin:5,
-        fontSize:20,
-        opacity:0.9,
-        borderBottomColor:'#aaa',
-        borderBottomWidth:1
+        fontFamily:'Montserrat',
+        fontSize:16,
+        marginVertical:10,
+        padding:10,
+        borderColor:color.inActive,
+        borderRadius:20,
+        borderWidth:1,
+        color:color.white,
+        paddingHorizontal:20
     }
 })

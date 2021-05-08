@@ -1,16 +1,16 @@
 import React, {useContext, useEffect,useState, useReducer} from 'react'
-import {getData} from '../hooks/Data'
+import {getData, getCategory} from '../hooks/Data'
 
 import DATA from './CONSTANT.json'
 
-const INITIAL_STATE = {profile:{}}
+const INITIAL_STATE = {profile:{}, category:{}}
 
 const Context = React.createContext()
 
 const reducer = (state, action)=>{
     switch (action.type){
         case DATA.UPDATE_INITIAL_STATE:
-                return {...state, profile: action.profile}
+                return {...state, profile: action.profile, category:action.category}
         default:
             return state
     }
@@ -23,7 +23,8 @@ const DataProvider = ({children})=>{
     
     const Update = async ()=>{
         const profile = await getData()
-        dispatch({type:DATA.UPDATE_INITIAL_STATE, profile})
+        const category = await getCategory()
+        dispatch({type:DATA.UPDATE_INITIAL_STATE, profile, category})
     }
     useEffect(()=>{
         Update()

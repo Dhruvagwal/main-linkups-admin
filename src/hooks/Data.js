@@ -39,4 +39,10 @@ const saveData = async (name, location,price, imageUri)=>{
     await instances.put(`/Update/api/users/${PHONE_NUMBER}`,data)
 }
 
-export {useService, getData, saveData }
+const getCategory = async ()=>{
+    const {data} = await instances.get('/ReadAll/api/CATS/read')
+    console.log(data)
+    return data
+}
+
+export {useService, getData, saveData, getCategory }

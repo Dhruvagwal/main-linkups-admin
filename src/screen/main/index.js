@@ -34,7 +34,7 @@ const Index = ({navigation}) => {
                         </View>
                     </View>
                     :
-                    <View style={{height:'60%',justifyContent:'center'}}>  
+                    <View style={{height:'60%',justifyContent:'center', marginTop:-20}}>  
                         <Text style={{color:color.white, fontSize:18}}>Welcome Back!</Text>
                         <Text size={30} regular style={{letterSpacing:2}}>{profile.name}</Text>
                     </View>

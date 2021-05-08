@@ -39,21 +39,21 @@ const AddService = ({navigation}) => {
     const [loading, setLoading] = useState(false)
     const [selectedCategory, setCategory] = useState();
     const [images, setImage] = useState([])
-    const [url, setURL] = useState()
+
 
     const price = parseInt(mrp)*(1-parseInt(discount)/100)
     
     const Publish= async ()=>{
         var imageLink = []
         var count = 1
-        console.log(id)
         setLoading(true)
         await new Promise((resolve, reject)=>images.map(async image=>{
+            const Id = Math.floor((Math.random()*1000000)).toString()
             const blob = await getLocalPath(image)
-            const uploadTask = upload(blob, `serviceImages/${id}`, `${count}`);
+            const uploadTask = upload(blob, `serviceImages/${id}`, `${Id}`);
             await uploadTask;
-            const uri = await getLink(uploadTask, `serviceImages/${id}`, `${count}`)
-            imageLink.push(uri)
+            const uri = await getLink(uploadTask, `serviceImages/${id}`, `${Id}`)
+            imageLink.push({uri, Id})
             count===images.length && resolve(true) 
             count ++ 
         }))

@@ -5,6 +5,8 @@ import CONSTANT from '../../navigation/navigationConstant.json'
 import {Text, RowView} from 'styles'
 import  color from 'colors'
 
+import {DataConsumer} from 'context/data'
+
 import { FontAwesome, AntDesign } from '@expo/vector-icons'; 
 
 // import color from '../../asset/styles/color'
@@ -13,15 +15,15 @@ const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
 
 const IMAGE_SIZE = 200
-const ServiceListView = ({navigation})=>{
-
-    const Data = [1,2,3]
+const ServiceListView = ({navigation, data})=>{
+    const {state:{category}} = DataConsumer()
+    const categoryName = category.find(item=>item.id === data.CatSID).name
     return <Pressable onPress={()=>navigation.navigate(CONSTANT.ServiceDescription)} style={{flexDirection:'row', height:180,opacity:.95, backgroundColor:color.elevatedDark, borderRadius:10, alignItems:'center', marginVertical:20}}>
-        <Image source={{uri:'https://c4.wallpaperflare.com/wallpaper/471/285/160/robot-light-technics-wallpaper-preview.jpg'}} style={{width:IMAGE_SIZE, height:IMAGE_SIZE, borderRadius:10}}/>
+        <Image source={{uri:data.imageLink[0].uri}} style={{width:IMAGE_SIZE, height:IMAGE_SIZE, borderRadius:10}}/>
         <View style={{margin:10, alignSelf:'flex-start',width:160}}>
-            <Text bold>Fan Repair</Text>
-            <Text>Bajaj AC Motor Repair</Text>
-            <Text style={{fontSize:25, marginTop:10}}>₹550</Text>
+            <Text bold>{data.name}</Text>
+            <Text>{categoryName}</Text>
+            <Text style={{fontSize:25, marginTop:10}}>₹ {data.price}</Text>
             <RowView>
                 <AntDesign key={Math.random()} name="star" size={20} color={color.active} />
                 <Text>4.5</Text>
@@ -31,6 +33,7 @@ const ServiceListView = ({navigation})=>{
 }
 
 const Index = ({navigation}) => {
+    const {state:{profile:{Providers:{services}}}} = DataConsumer()
     return (
         <View style={{flex:1}}>
             <View style={{height:HEIGHT*.07}}/>
@@ -58,7 +61,9 @@ const Index = ({navigation}) => {
             </View>
             <ScrollView>
                 <View style={{width:WIDTH*.95,flex:1, alignSelf:'center', marginTop:10}}>
-                        <ServiceListView navigation={navigation}/>
+                        {
+                            services.map(item=><ServiceListView key={item.id} data={item} navigation={navigation}/>)
+                        }
                         <Text>{'\n'}</Text>
                         <Text>{'\n'}</Text>
                 </View>

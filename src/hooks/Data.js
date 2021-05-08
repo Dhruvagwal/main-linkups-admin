@@ -22,8 +22,6 @@ const useService = async (state, newData)=>{
             services:services?[...services,newData]:[newData]
         }
     }
-    
-    console.log(Data)
     await instances.put(`/Update/api/users/${PHONE_NUMBER}`,Data)
 }
 

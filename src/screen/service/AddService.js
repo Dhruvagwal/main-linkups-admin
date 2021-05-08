@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useCallback} from 'react'
 import moment from 'moment'
-import { StyleSheet, View, TextInput, Dimensions, Pressable, ScrollView, Image, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, TextInput as RTextInput, Dimensions, Pressable, ScrollView, Image, ActivityIndicator } from 'react-native'
 
 import SelectPicker from 'react-native-form-select-picker'; 
 import ImageSelector from 'components/serviceImagePicker'
@@ -14,6 +14,13 @@ import {DataConsumer} from 'context/data'
 
 import {Text, RowView} from 'styles'
 import color from 'colors'
+
+const TextInput = ({placeholder, value, onChangeText, style, keyboardType})=>{
+    return <>
+            <RTextInput label='headline' style={[styles.TextInput,style]} keyboardType={keyboardType} placeholder={placeholder} value={value} onChangeText={onChangeText} placeholderTextColor={color.inActive}/>
+        </>
+        
+}
 
 const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
@@ -37,7 +44,19 @@ const AddService = ({navigation}) => {
     const price = parseInt(mrp)*(1-parseInt(discount)/100)
     
     const Publish= async ()=>{
+        var imageLink = []
+        var count = 1
+        console.log(id)
         setLoading(true)
+        await new Promise((resolve, reject)=>images.map(async image=>{
+            const blob = await getLocalPath(image)
+            const uploadTask = upload(blob, `serviceImages/${id}`, `${count}`);
+            await uploadTask;
+            const uri = await getLink(uploadTask, `serviceImages/${id}`, `${count}`)
+            imageLink.push(uri)
+            count===images.length && resolve(true) 
+            count ++ 
+        }))
         const data = {
             name,
             id,
@@ -48,6 +67,7 @@ const AddService = ({navigation}) => {
             price,
             assurance,
             duration,
+            imageLink,
             since:moment(new Date()).format('lll')
         }
         await useService(state, data)
@@ -69,7 +89,7 @@ const AddService = ({navigation}) => {
             <ScrollView>
                 <View style={{backgroundColor:color.elevatedDark, flex:1, margin:10, padding:10, borderRadius:20}}>
                     <Text style={{marginVertical:20, alignSelf:'center'}}>Service Details</Text>
-                    <TextInput style={styles.TextInput} placeholder="Headline" value={name} onChangeText={setName} placeholderTextColor={color.inActive}/>
+                    <TextInput label='headline' placeholder="Headline" value={name} onChangeText={setName}/>
                         <SelectPicker
                             onValueChange={(value) => {
                                 setCategory(value);
@@ -88,8 +108,8 @@ const AddService = ({navigation}) => {
                             ))}
                         </SelectPicker>
                         <RowView style={{justifyContent:'space-between'}}>
-                            <TextInput style={{...styles.TextInput, width:'48%'}} keyboardType='number-pad' placeholder="MRP" value={mrp} onChangeText={setMrp} placeholderTextColor={color.inActive}/>
-                            <TextInput style={{...styles.TextInput, width:'48%'}} keyboardType='number-pad' placeholder="Discount" value={discount} onChangeText={setDiscount} placeholderTextColor={color.inActive}/>
+                            <TextInput style={{width:'48%'}} keyboardType='number-pad' placeholder="MRP" value={mrp} onChangeText={setMrp}/>
+                            <TextInput style={{width:'48%'}} keyboardType='number-pad' placeholder="Discount" value={discount} onChangeText={setDiscount}/>
                         </RowView>
                         <RowView style={{justifyContent:'space-between'}}>
                             <SelectPicker
@@ -109,7 +129,7 @@ const AddService = ({navigation}) => {
                                     <SelectPicker.Item label={item} value={item} key={Math.random().toString()} />
                                 ))}
                             </SelectPicker>
-                            {assurance!==options[2] && <TextInput style={{...styles.TextInput, width:'48%'}} keyboardType='number-pad' placeholder="Days" value={duration} onChangeText={setDuration} placeholderTextColor={color.inActive}/>}
+                            {assurance!==options[2] && <TextInput style={{width:'48%'}} keyboardType='number-pad' placeholder="Days" value={duration} onChangeText={setDuration}/>}
                         </RowView>
                         {
                             images.length<4 && <ImageSelector  image={images} setImage={setImage} style={[styles.TextInput,{alignItems:'center', justifyContent:'center', height: 200}]}>

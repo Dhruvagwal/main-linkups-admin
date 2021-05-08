@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { StyleSheet, View, Dimensions, TextInput, Pressable, ActivityIndicator } from 'react-native'
 
-import {UploadImage} from '../../hooks/upload'
+import upload, {getLink, getLocalPath} from 'hooks/upload'
 import {saveData} from '../../hooks/Data'
 
 import {Text} from 'styles'
@@ -26,8 +26,13 @@ const edit = () => {
 
     const Save = async ()=>{
         setLoading(true)
-        image && await UploadImage(image, 'profileImage', "918595771213")
-        await saveData(name, location, price,image)
+
+        const blob = await getLocalPath(image)
+        const uploadTask = upload(blob, `serviceImages/${id}`, `${profile.id}`);
+        await uploadTask;
+        const uri = await getLink(uploadTask, `profileImage`, `${profile.id}`)
+
+        await saveData(name, location, price,uri)
         await Update()
         setLoading(false)
     }

@@ -1,37 +1,17 @@
 import firebase from '../../firebase'
 
-const getLocalPath = async (uri)=>{
+const getLocalPath = async (uri) => {
   const response = await fetch(uri);
-  const blob = await response.blob();
-  return blob
+  return response.blob();
 }
 
-const upload = async (blob, className,acc)=>{
-  const ref = await firebase.storage().ref(`/${className}`).child(`/${acc}`).put(blob)
-  console.log('trigger')
-  console.log('ref', ref)
-  return ref
+const upload = (blob, className,acc)=>{
+  return firebase.storage().ref(`/${className}`).child(`/${acc}`).put(blob)
 };
 
-const getLink = async (ref, className, acc)=>{
-  await ref.on(
-    "state_changed",
-    (snapshot) => {},
-    (err) => {
-      console.log(err);
-    },
-    () => {
-      storage
-        .ref(`/${className}`)
-        .child(`/${acc}`)
-        .getDownloadURL()
-        .then(async (url) => {
-            // setURL(url)
-            console.log(url)
-            return url
-        });
-    }
-  );
+const getLink = async (uploadTask) => {
+  return uploadTask
+    .then((snapshot) => snapshot.ref.getDownloadURL());
 }
 export {getLink, getLocalPath}
 export default upload

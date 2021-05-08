@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
-import { StyleSheet, Text, View, Dimensions, Pressable } from 'react-native'
+import { StyleSheet,  View, Dimensions, Pressable } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
+import {Text} from 'styles'
 import color from 'colors'
 
 import BottomSheet,{BottomSheetScrollView} from '@gorhom/bottom-sheet'
@@ -27,29 +28,29 @@ const bottomSheet = ({foo, navigation:{navigate}}) => {
                         <View style={styles.contentContainer}/>
                 }
             > 
-                <Text style={{margin:20,marginTop:25,fontSize:20,textAlign:'center',opacity:0.7, color:color.white, fontWeight:'700', letterSpacing:2, textTransform:'uppercase'}}>SHREE RAM NIVAS STORE</Text>
+                <Text style={{margin:20,marginTop:25,fontSize:20,textAlign:'center', letterSpacing:1.5, textTransform:'uppercase'}} bold>SHREE RAM NIVAS STORE</Text>
                 <BottomSheetScrollView>
                     <View style={{justifyContent:'center' ,height:HEIGHT*0.6}}>
                         <View style={{flexDirection:'row',justifyContent:'center'}}>
                             <Pressable onPress={()=>navigate(CONSTANT.Customer)} style={styles.category}>
                                     <FontAwesome5 name="users" size={ICON_SIZE} color={color.white} />
-                                    <Text style={styles.label}>Customers</Text>
+                                    <Text regular style={styles.label}>Customers</Text>
                             </Pressable>
 
                             <Pressable onPress={()=>navigate(CONSTANT.Order)} style={styles.category}>
                                     <Feather name="shopping-cart" size={ICON_SIZE} color={color.white} />
-                                    <Text style={styles.label}>Orders</Text>
+                                    <Text regular style={styles.label}>Orders</Text>
                             </Pressable>
                         </View>
                         <View style={{flexDirection:'row', justifyContent:'center'}}>
                             <Pressable onPress={()=>navigate(CONSTANT.Service,{screen:CONSTANT.ServiceListView})} style={styles.category}>
                                     <AntDesign name="customerservice" size={ICON_SIZE} color={color.white} />
-                                    <Text style={styles.label}>Services</Text>
+                                    <Text regular style={styles.label}>Services</Text>
                             </Pressable>
                             
                             <Pressable onPress={()=>navigate(CONSTANT.Order,{screen:CONSTANT.PaymentListView})} style={styles.category}>
                                     <MaterialIcons name="payment" size={ICON_SIZE} color={color.white} />
-                                    <Text style={styles.label}>Payments</Text>
+                                    <Text regular style={styles.label}>Payments</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -81,7 +82,6 @@ const styles = StyleSheet.create({
       fontSize:ICON_SIZE*0.3,
       textTransform:'uppercase',
       letterSpacing:2,
-      fontWeight:'700',
       color: color.white,
       marginTop:10
   }

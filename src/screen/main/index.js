@@ -19,7 +19,6 @@ const IMAGE_SIZE = 150
 const Index = ({navigation}) => {
     const {state:{profile}} = DataConsumer()
     const [isOpen, setOpen] = useState(false)
-
     return (
         <View style={{flex:1, padding:20, paddingTop:50}}>
         <View style={{height:HEIGHT*0.25, marginTop:20}}>

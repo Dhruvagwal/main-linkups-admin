@@ -23,7 +23,7 @@ const DataProvider = ({children})=>{
     
     const Update = async ()=>{
         const profile = await getData()
-        const category = await getCategory()
+        const category = await getCategory(profile.info.CatPID)
         dispatch({type:DATA.UPDATE_INITIAL_STATE, profile, category})
     }
     useEffect(()=>{

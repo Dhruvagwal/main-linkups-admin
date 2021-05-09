@@ -18,7 +18,7 @@ const IMAGE_SIZE = 200
 const ServiceListView = ({navigation, data})=>{
     const {state:{category}} = DataConsumer()
     const categoryName = category.find(item=>item.id === data.CatSID).name
-    return <Pressable onPress={()=>navigation.navigate(CONSTANT.ServiceDescription)} style={{flexDirection:'row', height:180,opacity:.95, backgroundColor:color.elevatedDark, borderRadius:10, alignItems:'center', marginVertical:20}}>
+    return <Pressable onPress={()=>navigation.navigate(CONSTANT.ServiceDescription,{id:data.id})} style={{flexDirection:'row', height:180,opacity:.95, backgroundColor:color.elevatedDark, borderRadius:10, alignItems:'center', marginVertical:20}}>
         <Image source={{uri:data.imageLink[0].uri}} style={{width:IMAGE_SIZE, height:IMAGE_SIZE, borderRadius:10}}/>
         <View style={{margin:10, alignSelf:'flex-start',width:160}}>
             <Text bold>{data.name}</Text>

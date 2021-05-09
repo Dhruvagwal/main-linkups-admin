@@ -31,6 +31,7 @@ const id = 'SER-'+Math.floor(Math.random()*1000000)
 const AddService = ({navigation}) => {
     const {state, Update} = DataConsumer()
     const {profile, category} = state
+    console.log(category)
     const [name, setName] = useState()
     const [mrp, setMrp] = useState()
     const [discount, setDiscount] = useState('0')

@@ -1,173 +1,152 @@
-import React from 'react'
-import {StyleSheet, View, Text, Dimensions, FlatList, Image, Pressable } from 'react-native'
+import React, {useState} from 'react'
+import { StyleSheet, View, Dimensions, FlatList, Image } from 'react-native'
 
-import BottomSheet,{BottomSheetScrollView} from '@gorhom/bottom-sheet'
+import { MaterialIcons, AntDesign } from '@expo/vector-icons'; 
 
-import { SimpleLineIcons,FontAwesome, AntDesign } from '@expo/vector-icons'; 
+import {BottomSheetScrollView, BottomSheetFlatList, BottomSheetDraggableView } from '@gorhom/bottom-sheet'
 
-import {AccountListView} from '../account'
+import BottomSheet from 'components/BottomSheet'
+import {ProductList} from 'components/product'
 
-import color from '../../asset/styles/color'
+import {DataConsumer} from 'context/data'
+
+import {Text, RowView} from 'styles'
+import color from 'colors'
 
 const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
 
-const IMAGE_WIDTH = WIDTH
-const IMAGE_HEIGHT = HEIGHT*.8
+const DATA = [  'https://i.pinimg.com/originals/3e/7b/72/3e7b729ae2443a8b77e0e6d651c8d62c.jpg',
+                'https://i.pinimg.com/originals/ee/fd/38/eefd380a720d32ed8a53fa2d68516a28.jpg',
+                'https://mfiles.alphacoders.com/778/778914.jpg',
+                'https://mfiles.alphacoders.com/717/717350.jpg',
+                'https://1.bp.blogspot.com/-VOu5QNaET_I/XvdJZ8e1aBI/AAAAAAAALrY/YeLOiyMSrLAS810JqH8NHzH611JAB230ACK4BGAsYHg/s3840/SuperCars_5743.jpeg'
+              ]
+const IMAGE_HEIGHT = HEIGHT*.75
+const IMAGE_PAGINATION_HEIGHT = 50
 
+const Point = ({children})=>{
+    return <RowView style={{marginLeft:20}}>
+        <View style={{padding:5, backgroundColor:color.active, borderRadius:3.5}}/>
+        <Text size={17}> {children}</Text>
+    </RowView>
+}
 
-const IMAGE_SIZE = 50
-
-const DATA = ['https://wallpaperaccess.com/full/1301791.jpg','https://wallpapercave.com/wp/wp5835784.jpg','https://121quotes.com/wp-content/uploads/2019/09/red-lamborghini-wallpaper.jpg']
-const Data = [1,2,3]
-
-const Rating = ({width=0, Rate=0})=>{
-    return <View style={[styles.row,{marginVertical:3, alignSelf:'center'}]}>
-        <View style={{alignItems:'center', flexDirection:'row'}}>
-            <Text style={{fontSize:20, color: color.white}}>{Rate} </Text>
-            <AntDesign name="star" size={25} color={color.notification} />
-        </View>
-        <View style={[styles.row,{width:WIDTH*.75, height:15, backgroundColor:color.Secondary, borderRadius:100, marginLeft:10}]}>
-            <View style={{backgroundColor:color.notification, height:15, width:`${width}%`, borderRadius:100}}/>
-        </View>
+const Review = ()=>{
+    const IMAGE_SIZE = 50
+    const uri = 'https://i.insider.com/5cb8b133b8342c1b45130629?width=700'
+    return <View style={{backgroundColor:color.dark, opacity: 0.7, width:'100%', alignSelf:'center', marginTop:10, height:150, padding:20, borderRadius:20, justifyContent:'center'}}>
+        <RowView>
+            <Image source={{uri}} style={{height:IMAGE_SIZE, width:IMAGE_SIZE, borderRadius:IMAGE_SIZE}}/>
+            <View style={{marginLeft:10}}>
+                <Text regular>Ananya Pandey</Text>
+                <RowView>
+                    <AntDesign name="star" size={24} color={color.active} />
+                    <Text regular> 4.5</Text>
+                </RowView>
+            </View>
+        </RowView>
+        <Text size={12} style={{marginTop:5}}>
+            Awesome Service with great Quality. Recomending You To...
+        </Text>
     </View>
 }
-
-const FeedBackRating = ({SIZE=30, width=WIDTH*.75})=>{
-    return <View style={{flexDirection:'row', justifyContent:'space-around', width, alignSelf:'center'}}>
-            {
-                Data.map(()=>{
-                    return <AntDesign key={Math.random()} name="star" size={SIZE} color={color.notification} />
-                })
-            }
-            <AntDesign name="staro" size={SIZE} color={color.notification} />
-            <AntDesign name="staro" size={SIZE} color={color.notification} />
-        </View>
-}
-
-const ServiceDescription = ({navigation:{navigate}}) => {
-
-
+const ServiceDescription = ({navigation:{navigate}, route:{params:{id}}}) => {
+    const {state:{profile}} = DataConsumer()
+    const {Providers:{services}} = profile
+    const data = services.filter(item=>item.id===id)[0]
     return (
-        <View style={{flex:1}}>
+        <View style={{flex:1, backgroundColor:color.dark}}>
             <View style={{height:IMAGE_HEIGHT}}>
                 <FlatList
-                    data={DATA}
-                    decelerationRate='fast'
+                    data={data.imageLink}
                     snapToInterval={IMAGE_HEIGHT}
-                    keyExtractor={()=>Math.random().toString()}
-                    renderItem = {({item})=>{
-                        return <Image source={{uri:item}} style={{height:IMAGE_HEIGHT, width:IMAGE_WIDTH}}/>
+                    decelerationRate='fast'
+                    keyExtractor={(item)=>item.Id}
+                    renderItem={({item})=>{
+                        return <Image source={{uri:item.uri}} style={{width:WIDTH, height:IMAGE_HEIGHT}}/>
                     }}
                 />
             </View>
-            <View style={{position:'absolute', top:HEIGHT*.05, right: WIDTH*.05, zIndex:100}}>
-                <Pressable style={{backgroundColor:color.lightBlue, padding:10, width:WIDTH*.2, alignItems:'center', borderRadius:5}}>
-                    <Text>EDIT</Text>
-                </Pressable>
+            <View style={{position:'absolute', right:10, top:IMAGE_HEIGHT/6.5}}>
+                <FlatList
+                    data={data.imageLink}
+                    snapToInterval={IMAGE_PAGINATION_HEIGHT}
+                    decelerationRate='fast'
+                    keyExtractor={(item)=>item.Id}
+                    renderItem={({item})=>{
+                        return <View style={{marginVertical:10, borderWidth:2, borderColor:color.white, borderRadius:10,overflow:'hidden'}}>
+                            <Image source={{uri:item.uri}} style={{width:IMAGE_PAGINATION_HEIGHT, height:IMAGE_PAGINATION_HEIGHT}}/>
+                        </View>
+                    }}
+                />
             </View>
-            <BottomSheet
-                initialSnapIndex ={0}
-                snapPoints={[HEIGHT*.29, HEIGHT*.9]}
-                handleComponent={()=><View style={{borderWidth:2,borderRadius:10, alignSelf:'center',borderColor:color.Secondary, margin:10, width:70}}/>}
-                 backgroundComponent={() =>
-                        <View style={styles.contentContainer}/>
-                }
-            >
-                <BottomSheetScrollView showsVerticalScrollIndicator={false} style={{width:WIDTH*.95, alignSelf:'center'}}>
+            <BottomSheet snapPoints={[HEIGHT*.25,HEIGHT*.85]}>
+                <BottomSheetScrollView>
+                    <View style={{padding:20, paddingTop:0}}>
+                        <RowView style={{width:'80%', alignItems:'flex-start', overflow:'visible', justifyContent:'space-between'}}>
+                            <Text size={25} bold style={{width:WIDTH*.7}}>{data.name}</Text>
+                            <Text size={20}>
+                                <AntDesign name="star" size={24} color={color.active} />
+                                {' '}4.5
+                            </Text>
+                        </RowView>
+                        <Text regular style={{color:color.inActive}}>{profile.name}</Text>
 
-
-                    <Text style={{width:WIDTH*.9, fontSize:30, color:color.lightGreen, textTransform:'uppercase', letterSpacing:1.5, fontWeight:'700'}}>Electric Motor Repair</Text>
-                    <Text style={{color: color.Secondary, fontSize:17, letterSpacing:1.3}}>Bajaj Electric Motor Repair Fan Binding</Text>
-                    <View style={{marginTop:10}}>
-                        <View style={[styles.row, {alignItems:'flex-end'}]}>
-                            <Text style={styles.text}>₹</Text>
-                            <Text style={[styles.text,{fontSize:30, letterSpacing:2}]}>750</Text>
-                        </View>
-                        <Text style={[styles.text, {color:color.Secondary}]}>MRP : <Text style={{textDecorationLine:'line-through'}}>₹850</Text> <Text style={[styles.text,{color:color.red}]}> Save ₹100</Text></Text>
-                        <Text style={styles.text}>Discount : 15%</Text>
+                        <RowView style={{alignItems:'flex-end', marginVertical:20}}>
+                            <View>
+                                <Text size={12}>Price</Text>
+                                <Text size={30} style={{color:color.active, marginRight:5}} regular>₹ {data.price}</Text>
+                            </View>
+                            <View>
+                                <Text size={15} style={{color:color.inActive, textDecorationLine:'line-through'}} regular>₹ 675</Text>
+                                <Text style={{color:color.inActive}} regular>Save ₹ 175</Text>
+                            </View>
+                        </RowView>
+                        
+                        <Text style={{textAlign:'justify', marginTop:20}}>This Service provides the leading capacity to enhance your stamina in a very fruit full way.</Text>
                         <Text>{'\n'}</Text>
-
-                        <View style={[styles.row,{alignSelf:'center'}]}>
-                            <SimpleLineIcons name="badge" size={24} color={color.notification} />
-                            <Text style={[{color:color.notification,fontSize:20, textTransform:'uppercase', letterSpacing:1.7, fontWeight:'700'}]}> 180 Days Warranty</Text>
-                        </View>
-                        <Text>{'\n'}</Text>
-                        <Text style={[styles.text,{alignSelf:'center'}]}>Features From Linkups</Text>
-                        <View style={{marginVertical:10, backgroundColor:color.yellow, alignSelf:'center',padding:10,borderRadius:100, width:WIDTH*.9, alignItems:'center'}}>
-                            <Text style={{fontSize:18, textTransform:'uppercase', letterSpacing:1.5}}>Price Effective</Text>
-                        </View>
-                        <View style={{marginVertical:10, backgroundColor:color.brightGreen, alignSelf:'center',padding:10,borderRadius:100, width:WIDTH*.9, alignItems:'center'}}>
-                            <Text style={{fontSize:18, textTransform:'uppercase', letterSpacing:1.5}}>On Time Delivery</Text>
-                        </View>
-                        <View style={{marginVertical:10, backgroundColor:color.pink, alignSelf:'center',padding:10,borderRadius:100, width:WIDTH*.9, alignItems:'center'}}>
-                            <Text style={{fontSize:18, textTransform:'uppercase', letterSpacing:1.5}}>Quality Assurance</Text>
-                        </View>
-                        <View style={{marginVertical:10, backgroundColor:color.brightBlue, alignSelf:'center',padding:10,borderRadius:100, width:WIDTH*.9, alignItems:'center'}}>
-                            <Text style={{fontSize:18, textTransform:'uppercase', letterSpacing:1.5}}>SECURE</Text>
-                        </View>
-                    </View>
-                    <Text>{'\n'}</Text>
-                    <View>
-                        <Text style={[styles.text, {alignSelf:'center'}]}>Service Review & Rating Overview</Text>
-                        <Text style={[styles.text, {alignSelf:'center'}]}><Text style={{fontSize:40, fontWeight:'700'}}>3</Text>/5</Text>
-
-                        <FeedBackRating/>
-                        <Text style={{color:color.Secondary, alignSelf:'center', marginTop:10}}>1500 Rating</Text>
+                        {/* Service Provider Detail */}
                         <View>
-                            <Rating width={75} Rate={5}/>
-                            <Rating width={65} Rate={4}/>
-                            <Rating width={85} Rate={3}/>
-                            <Rating width={25} Rate={2}/>
-                            <Rating width={5} Rate={1}/>
+                            <RowView style={{justifyContent:'space-between'}}>
+                                <Text regular>About Service Provider</Text>
+                                <RowView>
+                                    <Text size={12}>See More</Text>
+                                    <MaterialIcons name="keyboard-arrow-right" size={24} color={color.white} />
+                                </RowView>
+                            </RowView>
+                            <View style={{marginTop:5}}>
+                                <Point>Long Experience</Point>
+                                <Point>Reliable</Point>
+                                <Point>Price Effective</Point>
+                                <Point>Quality Assurance</Point>
+                            </View>
+                            <Text>{'\n'}</Text>
+                            <View style={{marginTop:20}}>
+                                    <Text regular>Users Review</Text>
+                                <RowView style={{justifyContent: 'space-between', marginTop:10}}>
+                                    <Text size={12} style={{color:color.inActive, alignSelf:'flex-end'}}>5 out of 150 reviews</Text>
+                                    <RowView>
+                                        <Text size={12}>See More</Text>
+                                        <MaterialIcons name="keyboard-arrow-right" size={24} color={color.white} />
+                                    </RowView>
+                                </RowView>
+                                {[1,2,3,4].map(()=>{
+                                    return <Review key={Math.random().toString()}/>
+                                })}
+                            </View>
                         </View>
-                        <Text>{'\n'}</Text>
-                        <Text style={[styles.text,{alignSelf:'center'}]}>Customer Reviews</Text>
-                        {
-                            Data.map(()=>{
-                                return <View key={Math.random().toString()} style={{backgroundColor:color.black, elevation:5, borderRadius:10, padding:10, marginVertical:10}}>
-                                    <View style={[styles.row,{marginBottom:10}]}>
-                                        <Image source={require('../../asset/styles/Images/me.jpg')} style={{width:IMAGE_SIZE, height:IMAGE_SIZE, borderRadius:IMAGE_SIZE, borderWidth:2, borderColor:color.lightBlue}}/>
-                                        <View>
-                                            <Text style={{color:color.white, marginBottom:5}}>{' '}Akhilesh Yadav</Text>
-                                            <FeedBackRating SIZE={15} width={120}/>
-                                        </View>
-                                    </View>
-                                    <Text style={{color:color.white, textAlign:'justify'}}>He Gives very good service. I am recommending you to take his service</Text>
-                                </View>
-                            })
-                        }
-                        <Text>{'\n'}</Text>
-                        <View>
-                            <Text style={[styles.text,{alignSelf:'center'}]}>Your Customers</Text>
-                            <AccountListView navigate={navigate}/>
-                            <AccountListView navigate={navigate}/>
-                        </View>
-                        <Text>{'\n'}</Text>
                     </View>
                 </BottomSheetScrollView>
             </BottomSheet>
         </View>
     )
 }
-
+export {Review}
 export default ServiceDescription
 
 const styles = StyleSheet.create({
-    contentContainer: {
-        ...StyleSheet.absoluteFillObject,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        backgroundColor: color.black,
-  },
-  text:{
-      color:color.white, 
-      fontSize:18,
-      marginVertical:3,
-      letterSpacing:1.5
-  },
-  row:{
-    flexDirection:'row', 
-    alignItems:'center'
-  }
+    style:{
+        textDecorationLine:'line-through'
+    }
 })

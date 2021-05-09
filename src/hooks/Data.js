@@ -25,13 +25,17 @@ const useService = async (state, newData)=>{
     await instances.put(`/Update/api/users/${PHONE_NUMBER}`,Data)
 }
 
-const saveData = async (name, location,price, imageUri)=>{
+const saveData = async (name, location,price, imageUri,CatPID, profile)=>{
     const PHONE_NUMBER = await AsyncStorage.getItem(STORAGE_KEY_3)
     const data = {
         name,
         location,
-        price:parseInt(price.replace('₹ ','')),
-        imageUri
+        imageUri,
+        info:{
+            ...profile.info,
+            price:parseInt(price.replace('₹ ','')),
+            CatPID
+        }
     }
     await instances.put(`/Update/api/users/${PHONE_NUMBER}`,data)
 }
@@ -41,4 +45,8 @@ const getCategory = async (id)=>{
     return services
 }
 
-export {useService, getData, saveData, getCategory }
+const getProviderCategoryList = async ()=>{
+    return instances.get('/ReadAll/api/CATP/read')
+}
+
+export {useService, getData, saveData, getCategory, getProviderCategoryList }

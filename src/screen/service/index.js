@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { StyleSheet, View, Dimensions, Image, ScrollView, TextInput, FlatList, Pressable } from 'react-native'
 
 import CONSTANT from '../../navigation/navigationConstant.json'
@@ -6,6 +6,7 @@ import {Text, RowView} from 'styles'
 import  color from 'colors'
 
 import {DataConsumer} from 'context/data'
+import {useKeyboardStatus} from 'hooks/useKeyboard'
 
 import { FontAwesome, AntDesign } from '@expo/vector-icons'; 
 
@@ -34,14 +35,16 @@ const ServiceListView = ({navigation, data})=>{
 
 const Index = ({navigation}) => {
     const {state:{profile:{Providers:{services}}}} = DataConsumer()
+    const [search, setSearch] = useState('')
+    const isOpen = useKeyboardStatus()
     return (
         <View style={{flex:1}}>
             <View style={{height:HEIGHT*.07}}/>
             <View style={{backgroundColor:color.lightDark,width:WIDTH*0.95, alignSelf:'center', opacity:.95, borderRadius:5, flexDirection:'row', alignItems:'center'}}>
                     <FontAwesome name="search" size={20} color={color.white} style={{marginHorizontal:10}}/>
-                    <TextInput placeholder='Search Your Service' placeholderTextColor={color.white} style={{color:color.white, padding:10,fontSize:18, width:WIDTH*0.8}}/>
+                    <TextInput placeholder='Search Your Service' value={search} onChangeText={setSearch} placeholderTextColor={color.white} style={{color:color.white, padding:10,fontSize:18, width:WIDTH*0.8}}/>
             </View>  
-            <View style={{height:HEIGHT*.2, padding:10, paddingRight:0, paddingTop:20}}>
+            {!isOpen && <View style={{height:HEIGHT*.2, padding:10, paddingRight:0, paddingTop:20}}>
                 <Text>Notifications</Text>
                 <FlatList
                     data={['car','bike','cycle','plane']}
@@ -58,19 +61,23 @@ const Index = ({navigation}) => {
                         </View>
                     }}
                 />
-            </View>
+            </View>}
             <ScrollView>
                 <View style={{width:WIDTH*.95,flex:1, alignSelf:'center', marginTop:10}}>
                         {
-                            services.map(item=><ServiceListView key={item.id} data={item} navigation={navigation}/>)
+                            services.map(item=>{
+                                const show = item.name.toUpperCase().includes(search.toUpperCase())
+                                return <View key={item.id}>
+                                    {show && <ServiceListView data={item} navigation={navigation}/>}
+                                </View>
+                            })
                         }
-                        <Text>{'\n'}</Text>
-                        <Text>{'\n'}</Text>
+                        {!isOpen && <Text>{'\n\n'}</Text>}
                 </View>
             </ScrollView>
-            <Pressable onPress={()=>navigation.navigate(CONSTANT.AddService)} style={{position:'absolute', bottom:20, borderWidth:0,backgroundColor:color.active, elevation:5, zIndex:100, padding:10, alignSelf:'center', width:WIDTH*0.75, alignItems:'center', borderRadius:50}}>
+            {!isOpen && <Pressable onPress={()=>navigation.navigate(CONSTANT.AddService)} style={{position:'absolute', bottom:20, borderWidth:0,backgroundColor:color.active, elevation:5, zIndex:100, padding:10, alignSelf:'center', width:WIDTH*0.75, alignItems:'center', borderRadius:50}}>
                 <Text size={18} regular style={{textTransform:'uppercase', color:color.white, letterSpacing:1.5}}>Add New Service</Text>
-            </Pressable>
+            </Pressable>}
         </View>
     )
 }

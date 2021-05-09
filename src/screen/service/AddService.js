@@ -17,7 +17,7 @@ import color from 'colors'
 
 const TextInput = ({placeholder, value, onChangeText, style, keyboardType})=>{
     return <>
-            <RTextInput label='headline' style={[styles.TextInput,style]} keyboardType={keyboardType} placeholder={placeholder} value={value} onChangeText={onChangeText} placeholderTextColor={color.inActive}/>
+            <RTextInput style={[styles.TextInput,style]} keyboardType={keyboardType} placeholder={placeholder} value={value} onChangeText={onChangeText} placeholderTextColor={color.inActive}/>
         </>
         
 }

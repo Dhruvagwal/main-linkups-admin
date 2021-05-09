@@ -1,8 +1,10 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { StyleSheet, View, Dimensions, TextInput, Pressable, ActivityIndicator } from 'react-native'
 
+import SelectPicker from 'react-native-form-select-picker'; 
+
 import upload, {getLink, getLocalPath} from 'hooks/upload'
-import {saveData} from '../../hooks/Data'
+import {saveData, getProviderCategoryList, getCategory} from '../../hooks/Data'
 
 import {Text} from 'styles'
 import color from 'colors'
@@ -15,15 +17,26 @@ const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
 const edit = () => {
     const {state:{profile}, Update} = DataConsumer()
+
     const [image, setImage ] = useState(profile.imageUri)
-    const [loading, setLoading] = useState(false)
-    
+
+    const [selectedCategory, setCategory] = useState();
+    const [category, setCategoryList] = useState(null)
+
     const [name, setName] = useState(profile.name) 
     const [location, setLocation] = useState(profile.Location.lat.toString()) 
-    const [price, setPrice] = useState('₹ '+profile.price) 
+    const [price, setPrice] = useState('₹ '+profile.info.price) 
+
+    const [loading, setLoading] = useState(false)
+    const [count, setCount] = useState(0)
 
     !price && setPrice('₹ ')
-
+    const getList = async ()=>{
+        const {data} = await getProviderCategoryList()
+        setCategoryList(data)
+        setCount(1)
+    }
+    count === 0 && getList()    
     const Save = async ()=>{
         setLoading(true)
 
@@ -32,11 +45,10 @@ const edit = () => {
         await uploadTask;
         const uri = await getLink(uploadTask, `profileImage`, `${profile.id}`)
 
-        await saveData(name, location, price,uri)
+        await saveData(name, location, price,uri, selectedCategory, profile)
         await Update()
         setLoading(false)
     }
-
     return (
         <View style={{backgroundColor:color.dark, flex:1}}>
             <Text size={25} style={{padding:20, alignSelf:'center', marginTop:50}} bold>Edit Details</Text>
@@ -46,6 +58,23 @@ const edit = () => {
                 <View style={{padding:20}}>
                     <TextInput onChangeText={setName} value={name} placeholder="Name" placeholderTextColor={color.inActive} style={styles.TextInput}/>
                     <TextInput onChangeText={setLocation} value={location}  placeholder="Location" placeholderTextColor={color.inActive} style={styles.TextInput}/>
+                    {category !==null && <SelectPicker
+                            onValueChange={(value) => {
+                                setCategory(value);
+                            }}
+                            placeholder="--Select Category--"
+                            style={styles.TextInput}
+                            onSelectedStyle={{color:color.white, fontFamily:'Montserrat'}}
+                            containerStyle={{
+                                backgroundColor:color.lightDark,
+                                color:color.white
+                            }}
+                            doneButtonTextStyle	={{color:color.white, fontFamily:'Montserrat'}}
+                            >
+                            {category.filter(item=>item.isActive===true).map((item) => (
+                                <SelectPicker.Item label={item.name} value={item.id} key={Math.random().toString()} />
+                            ))}
+                        </SelectPicker>}
                     <TextInput onChangeText={setPrice} keyboardType="number-pad" placeholder="Price" value={price} placeholderTextColor={color.inActive} style={styles.TextInput}/>
                 </View>
                 <Pressable onPress={Save} style={{backgroundColor:color.active, alignSelf:'center',padding:10, paddingHorizontal:30, borderRadius:20}}>
@@ -61,11 +90,14 @@ export default edit
 
 const styles = StyleSheet.create({
     TextInput:{
+        fontFamily:'Montserrat',
+        fontSize:16,
+        marginVertical:10,
         padding:10,
-        fontSize:18,
-        marginVertical:20,
-        borderBottomColor:color.inActive,
-        borderBottomWidth:1,
-        color:color.white
+        borderColor:color.inActive,
+        borderRadius:20,
+        borderWidth:1,
+        color:color.white,
+        paddingHorizontal:20
     }
 })

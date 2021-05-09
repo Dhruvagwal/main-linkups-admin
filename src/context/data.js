@@ -1,5 +1,5 @@
 import React, {useContext, useEffect,useState, useReducer} from 'react'
-import {getData, getCategory} from '../hooks/Data'
+import {getData, getCategory, getProviderCategoryList} from '../hooks/Data'
 
 import DATA from './CONSTANT.json'
 

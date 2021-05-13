@@ -1,5 +1,5 @@
-import React from 'react'
-import { StyleSheet, Text, Dimensions, Image, FlatList, TextInput, ScrollView, Pressable } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Dimensions, Image, FlatList, TextInput, ScrollView, Pressable, AsyncStorage } from 'react-native'
 
 import color from '../../asset/styles/color'
 import * as RootNavigation from '../../navigation/RootNavigation'
@@ -8,17 +8,22 @@ import CONSTANT from '../../navigation/navigationConstant.json'
 
 import { FontAwesome, Ionicons, Entypo } from '@expo/vector-icons'; 
 
+import {getOrderDetail, getCustomerById} from 'hooks/Data'
+import {DataConsumer} from 'context/data'
+
+import {Text} from 'styles'
+
 import {View} from 'moti'
 
 const HEIGHT = Dimensions.get('screen').height
 const WIDTH = Dimensions.get('screen').width
 
 const IMAGE_SIZE = 70
-const AccountListView = ({navigate})=>{
-    return <Pressable onPress={()=>navigate(CONSTANT.Customer,{screen:CONSTANT.CustomerDetail})} style={{backgroundColor:color.black, opacity:0.95, borderRadius:5, padding:10, marginVertical:10,flexDirection:'row', alignItems:'center', elevation:5}}>
+const AccountListView = ({navigate, data})=>{
+    return <Pressable onPress={()=>navigate(CONSTANT.Customer,{screen:CONSTANT.CustomerDetail, params:{data}})} style={{backgroundColor:color.black, opacity:0.95, borderRadius:5, padding:10, marginVertical:10,flexDirection:'row', alignItems:'center', elevation:5}}>
         <Image source={require('../../asset/styles/Images/me.jpg')} style={{width:IMAGE_SIZE, height:IMAGE_SIZE, borderRadius:IMAGE_SIZE, borderWidth:2, borderColor:color.lightBlue}}/>
-        <View style={{marginHorizontal:10, width:'55%'}}>
-            <Text style={{color:color.white, textTransform:'uppercase', letterSpacing:1.8, fontSize:16, fontWeight:'700'}} adjustsFontSizeToFit numberOfLines={1}>Dhruv Aggarwal</Text>
+        <View style={{marginHorizontal:10, width:'45%'}}>
+            <Text style={{color:color.white,width: 150}} size={16} adjustsFontSizeToFit numberOfLines={1} regular>{data.Name}</Text>
             <Text style={{opacity:0.7, color:color.white}}>C-Block 133/1 Gali No-11</Text>
         </View>
         <View style={{flexDirection:'row', alignItems:'center', width:'20%'}}>
@@ -29,6 +34,23 @@ const AccountListView = ({navigate})=>{
 }
 
 const Index = ({navigation:{navigate}}) => {
+    const {state:{profile}} = DataConsumer()
+    const [customersId, setCustomerId] = useState([])
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {  //assign interval to a variable to clear it.
+            getOrderDetail(profile.id).then(({data})=>{
+                data.map(async ({Customer_Id})=>{
+                    if (customersId.length===0 || customersId.filter(item=>item.id===Customer_Id).length===0){
+                        await getCustomerById(Customer_Id).then(({data})=>setCustomerId([...customersId, data]))
+                    }
+                })
+            })
+        }, 5000)
+      
+        return () => clearInterval(intervalId); //This is important
+       
+    }, [customersId])
     return (
         <View 
             from={{opacity:0}} 
@@ -67,10 +89,7 @@ const Index = ({navigation:{navigate}}) => {
                 <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
                     <View style={{margin:10, marginTop:25}}>
                             <Text style={{color:color.white, textTransform:'uppercase', letterSpacing:1.8}}>Your Customers</Text>
-                            <AccountListView navigate={navigate}/>
-                            <AccountListView navigate={navigate}/>
-                            <AccountListView navigate={navigate}/>
-                            <AccountListView navigate={navigate}/>
+                            {customersId.map(item=><AccountListView key={item} navigate={navigate} data={item}/>)}
                     </View>
                 </ScrollView>
         </View>

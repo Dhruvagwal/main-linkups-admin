@@ -5,11 +5,14 @@ const STORAGE_KEY_3 = 'LINKUPS_USER_PHONE_NUMBER'
 
 const getData = async ()=>{
     const PHONE_NUMBER = await AsyncStorage.getItem(STORAGE_KEY_3)
-    return await instances.get(`/ReadId/api/users/${PHONE_NUMBER}`).then(response=>{
+    return instances.get(`/ReadId/api/users/${PHONE_NUMBER}`).then(response=>{
         return response.data
     }).catch(err=>console.log(err))
 }
 
+const getCustomerById = (id)=>{
+    return instances.get(`/ReadId/api/users/${id}`)
+}
 
 const useService = async (state, newData)=>{
     const {profile} = state
@@ -49,4 +52,12 @@ const getProviderCategoryList = async ()=>{
     return instances.get('/ReadAll/api/CATP/read')
 }
 
-export {useService, getData, saveData, getCategory, getProviderCategoryList }
+const getOrderDetail = async (Provider_Id)=>{
+    return instances.post('/QuerySearch/api/orders/search',{Provider_Id})
+}
+
+const getOrderDetailByCustomerId = async (Customer_Id) =>{
+    return instances.post('/QuerySearch/api/orders/search',{Customer_Id})
+}
+
+export {useService, getData, saveData, getCategory, getProviderCategoryList, getOrderDetail, getCustomerById, getOrderDetailByCustomerId }

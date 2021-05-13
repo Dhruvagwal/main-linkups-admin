@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react'
-import { StyleSheet, TouchableOpacity, Dimensions , Image,Animated} from 'react-native'
+import { StyleSheet, TouchableOpacity, Dimensions , Image,Animated, AsyncStorage} from 'react-native'
 
 import color from '../../asset/styles/color'
 import {Text} from 'styles'
@@ -17,8 +17,10 @@ const HEIGHT = Dimensions.get('screen').height
 const IMAGE_SIZE = 150
 
 const Index = ({navigation}) => {
-    const {state:{profile}} = DataConsumer()
+    const {state:{profile}, Update} = DataConsumer()
     const [isOpen, setOpen] = useState(false)
+
+    useEffect(()=>{Update()},[])
     return (
         <View style={{flex:1, padding:20, paddingTop:50}}>
         <View style={{height:HEIGHT*0.25, marginTop:20}}>
@@ -33,7 +35,7 @@ const Index = ({navigation}) => {
                         </View>
                     </View>
                     :
-                    <View style={{height:'60%',justifyContent:'center', marginTop:-20}}>  
+                    <View style={{height:'60%',justifyContent:'center', marginTop:-50}}>  
                         <Text style={{color:color.white, fontSize:18}}>Welcome Back!</Text>
                         <Text size={30} regular style={{letterSpacing:2}}>{profile.name}</Text>
                     </View>

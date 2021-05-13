@@ -42,15 +42,15 @@ const Index = () => {
         },
     };
 
-    return (<NavigationContainer ref={navigationRef} theme={MyTheme}>
+    return (<NavigationContainer ref={navigationRef} theme={MyTheme} creenOptions={{ animationEnabled: false }}>
                 {!state.auth?
-                    <Stack.Navigator headerMode={false}>
+                    <Stack.Navigator headerMode={false} creenOptions={{ animationEnabled: false }}>
                         {Loading && <Stack.Screen name={CONSTANT.Loading} component={LoadingScreen}/>}
                         <Stack.Screen name={CONSTANT.Login} component={LoginScreen}/>
                         <Stack.Screen name={CONSTANT.SignUp} component={SignupScreen}/>
                     </Stack.Navigator>
                     :
-                    <Stack.Navigator headerMode={false}>
+                    <Stack.Navigator headerMode={false} creenOptions={{ animationEnabled: false }}>
                         {Loading && <Stack.Screen name={CONSTANT.Loading} component={LoadingScreen}/>}
                         <Stack.Screen name={CONSTANT.Home} component={MainScreen}/>
                         <Stack.Screen name={CONSTANT.edit} component={EditScreen}/>
